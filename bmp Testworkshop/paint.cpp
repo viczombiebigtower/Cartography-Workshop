@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 
 #define width 1920
 #define height 1080
@@ -74,6 +75,36 @@ void darkred(char* cache, int pos)
 	cache[pos * 3] = 0;
 	cache[pos * 3 + 1] = 0;
 	cache[pos * 3 + 2] = 139;
+}
+//I think a class needs building....
+void gradientLR(void (*func1)(char*, int), void (*func2)(char*, int), char* cache, int pos, float left, float right)
+{
+	int l = left * unit;
+	int r = right * unit;
+	int i = pos % width;
+	int temp[6];
+
+	//To be improved...yingyingying~~~
+	(*func1)(cache, pos);
+	temp[0] = cache[pos * 3];
+	temp[1] = cache[pos * 3 + 1];
+	temp[2] = cache[pos * 3 + 2];
+	(*func2)(cache, pos);
+	temp[3] = cache[pos * 3];
+	temp[4] = cache[pos * 3 + 1];
+	temp[5] = cache[pos * 3 + 2];
+	if (i >= l && i <= r)
+	{
+		float percent = 1.0 * (i - l) / (r - l);
+		for (int k = 0; k < 3; k++)
+		{
+			cache[pos * 3 + k] = (int)(temp[k] * percent) + (int)(temp[k + 3] * (1 - percent));
+		}
+		if (i == 620)
+		{
+			std::cout << percent << std::endl;
+		}
+	}
 }
 //Guess why I define this function. [doge]
 bool isblack(char* cache, int pos)
@@ -185,10 +216,16 @@ void paint(char* cache)
 			{
 				crimson(cache, pos);
 			}
-			//if ((y < ))
-			//{
-			//	darkred(cache, pos);
-			//}
+			if ((y < f[8] && y < f[10] && y > f[12] && y > f[13]
+				|| y < f[3] && y < f[4] && y < f[9] && y > f[8]
+				|| y < f[9] && y < f[16] && y < f[20] && y > f[8])
+				&& !isblack(cache, pos))
+
+			{
+				gradientLR(pink, purple, cache, pos, 5.0, 9.4);
+				//一个很令我恼火的bug，以致于我必须用中文解释，就是说变绿的横坐标位置比5.0大一丢丢
+				//突然变绿，如能debug，不胜感激！
+			}
 		}
 
 		//outline
