@@ -93,6 +93,12 @@ void gradientLR(void (*func1)(char*, int), void (*func2)(char*, int), char* cach
 	temp[3] = cache[pos * 3];
 	temp[4] = cache[pos * 3 + 1];
 	temp[5] = cache[pos * 3 + 2];
+	
+	for (int i = 0; i < 6; i++)
+	{
+		temp[i] = (temp[i] + 256) % 256;
+	}
+	
 	if (i >= l && i <= r)
 	{
 		float percent = 1.0 * (i - l) / (r - l);
@@ -223,8 +229,8 @@ void paint(char* cache)
 
 			{
 				gradientLR(pink, purple, cache, pos, 5.0, 9.4);
-				//Ò»¸öºÜÁîÎÒÄÕ»ðµÄbug£¬ÒÔÖÂÓÚÎÒ±ØÐëÓÃÖÐÎÄ½âÊÍ£¬¾ÍÊÇËµ±äÂÌµÄºá×ø±êÎ»ÖÃ±È5.0´óÒ»¶ª¶ª
-				//Í»È»±äÂÌ£¬ÈçÄÜdebug£¬²»Ê¤¸Ð¼¤£¡
+				//ä¸€ä¸ªå¾ˆä»¤æˆ‘æ¼ç«çš„bugï¼Œä»¥è‡´äºŽæˆ‘å¿…é¡»ç”¨ä¸­æ–‡è§£é‡Šï¼Œå°±æ˜¯è¯´å˜ç»¿çš„æ¨ªåæ ‡ä½ç½®æ¯”5.0å¤§ä¸€ä¸¢ä¸¢
+				//çªç„¶å˜ç»¿ï¼Œå¦‚èƒ½debugï¼Œä¸èƒœæ„Ÿæ¿€ï¼
 			}
 		}
 
